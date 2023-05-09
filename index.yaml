@@ -1,0 +1,25 @@
+apiVersion: v1
+entries:
+  argo-pipeline-java:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-05-09T15:54:13.625569+08:00"
+    description: A Helm chart for Kubernetes
+    digest: a267118e8a42912bc4306716a20c00942f0942f02fe23d59ee3c1ddf9569a96e
+    name: argo-pipeline-java
+    type: application
+    urls:
+    - https://junglechen.github.io/argo-pipeline-chart/argo-pipeline-java-0.1.0.tgz
+    version: 0.1.0
+  argo-pipeline-java2:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-05-09T15:54:13.625911+08:00"
+    description: A Helm chart for Kubernetes
+    digest: cb5bde7415a1701b3d9f07d9b70558fe5c5c1aa6dd45ea056f73ddebcb755c1b
+    name: argo-pipeline-java2
+    type: application
+    urls:
+    - https://junglechen.github.io/argo-pipeline-chart/argo-pipeline-java2-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-05-09T15:54:13.624921+08:00"

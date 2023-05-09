@@ -1,0 +1,27 @@
+
+{{if .Values.route.enabled}}
+kind: Route
+apiVersion: v1
+metadata:
+  name: name
+  namespace: {{.Values.branch.osNameSpace}}
+  annotations: 
+    haproxy.router.openshift.io/timeout: {{.Values.route.annotation.timeout}}s
+    haproxy.router.openshift.io/hsts_header: max-age={{.Values.route.annotation.max_age}}
+  labels:
+    app: {{.Values.branch.osApp}}
+    company: cx
+    pvt: {{.Values.branch.pvt}}
+spec:
+  host: {{.Values.route.spec.host}}
+  to:
+    kind: Service
+    name: {{.Values.branch.osAppColor}}
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+{{- end -}}
+

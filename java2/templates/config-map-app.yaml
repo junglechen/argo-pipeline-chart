@@ -1,0 +1,9 @@
+{{if ne .Values.branch.env "p0"}}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{.Values.branch.osAppColor}}-config-map
+  namespace: {{.Values.branch.osNameSpace}}
+data: 
+  a: 1
+  {{- end -}}

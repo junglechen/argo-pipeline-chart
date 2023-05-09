@@ -1,0 +1,32 @@
+branch:
+  osAppColor: apptest2
+  osNameSpace: apptest2.d0
+  osApp: apptest2
+  pvt: pvtest2
+  color: ''
+  osImageTagName: apptest2:latest
+  env: p0
+  colorString: ''
+  cluster: rosa1-test
+  isEteCluster: 'true'
+
+dc:
+ containers:
+  env:
+   default:
+    CX_DEBUG: 'false'
+
+
+service:
+ spec:
+  selector:
+   deploymentconfig: apptest2
+
+route:
+ enabled: 'true'
+ annotation:
+  timeout: '30'
+  max_age: '31536000'
+ spec:
+   host: apptest1-pvttest1-d0-rosa1-internal.ct1.cathaypacific.com
+   

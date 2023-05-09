@@ -1,0 +1,9 @@
+{{if and (eq .Values.branch.cluster "rosa1-test") (ne .Values.branch.env "p0") }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: cx-conjur
+  namespace: {{.Values.branch.osNameSpace}}
+data: 
+  host-name: https://cpasmflw.ct1.cathaypacific.com
+{{- end -}}
