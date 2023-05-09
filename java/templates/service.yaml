@@ -1,0 +1,22 @@
+{{if ne .Values.branch.env "p0"}}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{.Values.branch.osAppColor}}
+  namespace: {{.Values.branch.osNameSpace}}
+  labels:
+    app: {{.Values.branch.osApp}}
+    appGroup: {{.Values.branch.color}}
+    company: cx
+    pvt: {{.Values.branch.pvt}}
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    deploymentconfig: {{.Values.service.spec.selector.deploymentconfig}}
+  type: ClusterIP
+  sessionAffinity: None
+{{- end -}}

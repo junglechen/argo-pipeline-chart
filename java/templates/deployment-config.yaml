@@ -1,0 +1,89 @@
+{{if ne .Values.branch.env "p0"}}
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: {{.Values.branch.osAppColor}}
+  namespace: {{.Values.branch.osNameSpace}}
+  labels:
+    app: {{.Values.branch.osApp}}
+    app.kubernetes.io/part-of: {{.Values.branch.osApp}}
+    app.openshift.io/runtime: java
+    company: cx
+    pvt: {{ .Values.branch.pvt}}
+spec:
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 600
+      maxUnavailable: 25%
+      maxSurge: 25%
+    resources:
+      limits:
+        cpu: '1'
+        memory: 1024Mi
+      requests:
+        cpu: 200m
+        memory: 1024Mi
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - {{.Values.branch.osAppColor}}
+        from:
+          kind: ImageStreamTag
+          namespace: {{ .Values.branch.pvt}}
+          name: {{ .Values.branch.osImageTagName}}
+  replicas: 1
+  revisionHistoryLimit: 2
+  test: false
+  selector:
+    app: {{.Values.branch.osApp}}
+    deploymentconfig: {{.Values.branch.osAppColor}}
+    pvt: {{ .Values.branch.pvt}}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: {{.Values.branch.osApp}}
+        deploymentconfig: {{.Values.branch.osAppColor}}
+        pvt: {{ .Values.branch.pvt}}
+        company: cx
+    spec:
+      nodeSelector:
+        node-role.kubernetes.io/compute: 'true'
+        node-role.kubernetes.io/general: 'true'
+      containers:
+        - name: {{.Values.branch.osAppColor}}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+{{ include "env-default.app" . | indent 12 }}
+{{ include "env-app.app" . | indent 12 }}
+          resources:
+            limits:
+              cpu: 500m
+              memory: 768Mi
+            requests:
+              cpu: 100m
+              memory: 768Mi
+          readinessProbe:
+            httpGet:
+              path: /_health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 15
+            timeoutSeconds: 3
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+{{- end -}}

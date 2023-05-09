@@ -1,0 +1,9 @@
+{{if and (eq .Values.branch.cluster "rosa2-test") (ne .Values.branch.env "p0") }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: cx-logstash
+  namespace: {{.Values.branch.osNameSpace}}
+data: 
+  host: logstash.ncs1-internal.ct1.cathaypacific.com:5045
+{{- end -}}
